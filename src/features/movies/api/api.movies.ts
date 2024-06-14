@@ -1,11 +1,21 @@
-import { apiClient } from '../config/axios';
-import { GetMoviesResponse } from '../types/types.movie';
+import { apiClient } from '../../../config/axios';
+import { GetMoviesResponse } from '../types/movie';
 
-interface GetMoviesParams {
+export type GetMoviesParams = {
 	page?: number;
 	limit?: number;
-}
+};
 
+/**
+ * Fetches a list of movies from the API.
+ *
+ * @param {params} - An optional object containing pagination parameters.
+ * @param params.page - The page number to fetch.
+ * @param params.limit - The number of movies to fetch per page.
+ * @returns A promise that resolves to the response data containing the list of movies.
+ * @throws {Error} If the page or limit parameters are not valid numbers.
+ * @throws {Error} If the API response is not successful or does not contain the expected data.
+ */
 export const getMovies = async (
 	params: GetMoviesParams = {}
 ): Promise<GetMoviesResponse> => {
@@ -31,6 +41,14 @@ export const getMovies = async (
 	return response.data;
 };
 
+/**
+ * Fetches the details of a movie by its ID.
+ *
+ * @param id - The ID of the movie to fetch.
+ * @returns A promise that resolves to the response data containing the movie details.
+ * @throws {Error} If the ID parameter is not a valid number.
+ * @throws {Error} If the API response is not successful or does not contain the expected data.
+ */
 export const getMovieDetailsByID = async (
 	id: number
 ): Promise<GetMoviesResponse> => {
@@ -51,6 +69,17 @@ export const getMovieDetailsByID = async (
 	return response.data;
 };
 
+/**
+ * Searches for movies based on the provided search parameters.
+ *
+ * @param params - An object containing the search parameters, including the query string, page, and limit.
+ * @param params.query - The search query string.
+ * @param params.page - The page number for pagination (optional).
+ * @param params.limit - The number of results to return per page (optional).
+ * @returns A promise that resolves to the response data containing the search results.
+ * @throws {Error} If the page or limit parameters are not valid numbers, or if the query parameter is not a valid string.
+ * @throws {Error} If the API response is not successful or does not contain the expected data.
+ */
 export const searchMovies = async (
 	params: GetMoviesParams & { query: string }
 ): Promise<GetMoviesResponse> => {
