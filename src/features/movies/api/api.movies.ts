@@ -80,7 +80,7 @@ export const getMovieDetailsByID = async (
  * @throws {Error} If the page or limit parameters are not valid numbers, or if the query parameter is not a valid string.
  * @throws {Error} If the API response is not successful or does not contain the expected data.
  */
-export const searchMovies = async (
+export const getMoviesByQuery = async (
 	params: GetMoviesParams & { query: string }
 ): Promise<GetMoviesResponse> => {
 	if (params.page && typeof params.page !== 'number') {

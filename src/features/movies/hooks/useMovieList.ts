@@ -1,17 +1,23 @@
 import { useEffect, useState } from 'react';
+import { usePagination } from '../../../shared/hook/usePagination';
 import { getMovies } from '../api/api.movies';
 import type { Doc, GetMoviesResponse } from '../types/movie';
+import { useMovieFilters } from './useMovieFilters';
 
-interface UseMovieListProps {
-	page: number;
-	limit: number;
-}
+export type TUseMovieList = ReturnType<typeof useMovieList>;
 
-export function useMovieList({ page, limit }: UseMovieListProps) {
+export function useMovieList() {
 	const [movies, setMovies] = useState<Doc[]>([]);
-	const [total, setTotal] = useState<number>(0);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+
+	const { applyFilters, filters } = useMovieFilters();
+	
+	const { page, limit, totalPages, handlePageChange, handleLimitChange } =
+		usePagination({
+			initialLimit: 50,
+			totalItems: 0,
+		});
 
 	useEffect(() => {
 		const fetchMovies = async () => {
@@ -19,12 +25,16 @@ export function useMovieList({ page, limit }: UseMovieListProps) {
 			setError(null);
 
 			try {
-				const { docs, total }: GetMoviesResponse = await getMovies({
+				const response: GetMoviesResponse = await getMovies({
 					page,
 					limit,
 				});
-				setMovies(docs);
-				setTotal(total);
+
+				const filteredMovies = applyFilters(response.docs);
+
+				setMovies(filteredMovies);
+				handleLimitChange(response.limit);
+				handlePageChange(response.page);
 			} catch (err) {
 				setError('Failed to fetch movies');
 			} finally {
@@ -33,7 +43,17 @@ export function useMovieList({ page, limit }: UseMovieListProps) {
 		};
 
 		fetchMovies();
-	}, [page, limit]);
+	}, [page, limit, applyFilters, handlePageChange, handleLimitChange]);
 
-	return { movies, total, loading, error };
+	return {
+		movies,
+		loading,
+		error,
+		totalPages,
+		page,
+		limit,
+		handlePageChange,
+		handleLimitChange,
+		filters,
+	};
 }

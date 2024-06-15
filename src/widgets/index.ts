@@ -1,5 +1,4 @@
-import { MovieCard } from './movie/MovieCard';
-import { MovieList } from './movie/MovieList';
+import { MovieCard, MovieList } from './movie';
 
 export { MovieCard, MovieList };
 
