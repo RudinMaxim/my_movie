@@ -14,19 +14,18 @@ export function Pagination({
     onLimitChange,
 }: PaginationProps) {
 
-    const handlePageChange = (newPage: string) => {
-  const parsedPage = parseInt(newPage, 10);
-  if (!isNaN(parsedPage)) {
-    onPageChange(parsedPage);
-  }
-};
+    const handlePageChange = (newPage: number) => {
+        if (!isNaN(newPage)) {
+            onPageChange(newPage);
+        }
+    };
 
-const handleLimitChange = (newLimit: string) => {
-  const parsedLimit = parseInt(newLimit, 10);
-  if (!isNaN(parsedLimit)) {
-    onLimitChange(parsedLimit);
-  }
-};
+    const handleLimitChange = (newLimit: string) => {
+        const parsedLimit = parseInt(newLimit, 10);
+        if (!isNaN(parsedLimit)) {
+            onLimitChange(parsedLimit);
+        }
+    };
 
 
     return (
@@ -36,7 +35,7 @@ const handleLimitChange = (newLimit: string) => {
                 <select
                     id="limit"
                     value={limit}
-                    onChange={(e) => handleLimitChange(parseInt(e.target.value, 10))}
+                    onChange={(e) => handleLimitChange(e.target.value)}
                 >
                     <option value="10">10</option>
                     <option value="25">25</option>

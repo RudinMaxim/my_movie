@@ -1,4 +1,4 @@
-import { apiClient } from '../../../config/axios';
+import { apiClient } from '../../../shared/config/axios';
 import { GetMoviesResponse } from '../types/movie';
 
 export type GetMoviesParams = {

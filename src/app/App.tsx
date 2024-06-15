@@ -1,5 +1,4 @@
-import './App.css'
-import { MovieList } from './features/movies/components'
+import { MovieList } from '../widgets'
 
 function App() {
 
