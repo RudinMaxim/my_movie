@@ -1,7 +1,8 @@
 
 export function WishListPage() {
-  return (<main>
-
+  return (
+  <main>
+    <h1>WishListPage</h1>
   </main>
   )
 }

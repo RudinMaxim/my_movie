@@ -1,24 +1,10 @@
-import { useEffect, useState } from "react";
-import { Pagination } from "../../common/components/Pagination";
-import { usePagination } from "../../common/hooks/usePagination";
+import { MovieCard, MovieFilters } from ".";
+import { Pagination } from "../../../shared/components/Pagination";
 import { useMovieList } from "../hooks/useMovieList";
-import { MovieCard } from "./MovieCard";
 
 export function MovieList() {
-    const [totalItems, setTotalItems] = useState(100);
+    const { movies, loading, error, totalPages, page, limit, handlePageChange, handleLimitChange, filters } = useMovieList();
 
-    const { page, limit, totalPages, handlePageChange, handleLimitChange } = usePagination({
-        initialPage: 1,
-        initialLimit: 10,
-        totalItems: totalItems,
-    });
-    const { movies, loading, error, total } = useMovieList({ page, limit });
-
-    useEffect(() => {
-        if (total !== undefined) {
-            setTotalItems(total);
-        }
-    }, [total]);
 
     if (loading) {
         return <div>Loading...</div>;
@@ -31,6 +17,7 @@ export function MovieList() {
 
     return (
         <div>
+            <MovieFilters filters={filters} />
             <div>
                 <label htmlFor="limit">Movies per page:</label>
                 <select
@@ -46,7 +33,7 @@ export function MovieList() {
             </div>
             <div>
                 {movies.map((movie) => (
-                    <MovieCard key={movie.id} movie={movie} />
+                    <MovieCard key={`MovieCard__${movie.id}__${movie.name}`} movie={movie} />
                 ))}
             </div>
             <Pagination
